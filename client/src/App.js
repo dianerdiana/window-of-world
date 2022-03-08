@@ -7,6 +7,7 @@ import Subscribe from "./pages/Subscribe";
 import Profile from "./pages/Profile";
 import ListTransaction from "./pages/ListTransactions";
 import AddBook from "./pages/AddBook";
+import ReadBook from "./pages/ReadBook";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route exact path="/profile" element= { <Profile /> } />
       <Route exact path="/list-transactions" element= { <ListTransaction /> } />
       <Route exact path="/add-book" element= { <AddBook /> } />
+      <Route exact path="/read-book" element= { <ReadBook /> } />
     </Routes>
   );
 }

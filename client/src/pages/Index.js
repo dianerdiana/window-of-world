@@ -10,6 +10,16 @@ export default function Index() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
+  const modalSignIn = async (e) => {
+    await setShowLogin(true);
+    setShowRegister(false);
+  }
+
+  const modalSignUp = async (e) => {
+    await setShowRegister(true);
+    setShowLogin(false)
+  }
+
   return (
     <Container>
       <Row>
@@ -22,7 +32,7 @@ export default function Index() {
           </div>
           <div className="ms-4 mt-5">
             <Button 
-              onClick={()=> setShowRegister(true)}
+              onClick={modalSignUp}
               variant="danger" 
               className="ol-none px-5 py-2 bg-red fw-bold"
             >
@@ -30,7 +40,7 @@ export default function Index() {
             </Button>
 
             <Button 
-              onClick={()=> setShowLogin(true)}
+              onClick={modalSignIn}
               variant="secondary" 
               className="ol-none px-5 py-2 ms-5 bg-grey fw-bold"
             >
@@ -43,11 +53,13 @@ export default function Index() {
         </Col>
       </Row>
       <Login 
+        trigger={modalSignUp}
         show={showLogin}
         onHide={()=> setShowLogin(false)}
       />
 
       <Register 
+        trigger={modalSignIn}
         show={showRegister}
         onHide={()=> setShowRegister(false)}
       />

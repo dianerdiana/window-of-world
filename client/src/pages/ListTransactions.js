@@ -10,7 +10,7 @@ import { dataTransactions } from "../fake-data/data-transactions";
 export default function ListTransaction() {
 
   return (
-    <Container fluid>
+    <Container fluid className="pb-5">
       <Row className="py-2">
         <NavAdmin />
       </Row>
@@ -20,7 +20,7 @@ export default function ListTransaction() {
             Incoming Transaction
           </h3>
         </Col>
-        <Col className="w-80">
+        <Col className="w-80 pb-5">
           <table>
             <thead>
               <tr>

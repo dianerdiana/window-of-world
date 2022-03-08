@@ -2,9 +2,6 @@ import { Button, Col, Dropdown } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
-//import data
-import { user } from "../../fake-data/user"
-
 export default function Navbar(props) {
   
   const navigate = useNavigate()
@@ -33,12 +30,12 @@ export default function Navbar(props) {
 
           <Dropdown.Menu className="dropdown-profile ol-none py-3">
             <div className="triangle"></div>
-            <Dropdown.Item as={Link} to="/add-book" className="fw-bold fs-5">
+            <Dropdown.Item as={Link} to="/add-book" className="fw-bold fs-5 profile-item">
               <img src="/assets/icons/book.png" alt="add-book" style={{width: "40px"}} className="me-3"/>
               Add Book
             </Dropdown.Item>
             <hr style={{border: "2px solid gray"}}/>
-            <Dropdown.Item as="button" className="fw-bold fs-5">
+            <Dropdown.Item as="button" onClick={() => navigate("/")} className="fw-bold fs-5 profile-item">
               <img src="/assets/icons/red-logout.png" alt="add-book" style={{width: "40px"}} className="me-3"/>
               Logout
             </Dropdown.Item>

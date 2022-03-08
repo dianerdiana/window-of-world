@@ -4,6 +4,6 @@ export const user =
     email: "diego@gmail.com",
     fullName: "Egi Ganteng",
     status: "customer",
-    subscribe: "not subscribed",
+    subscribe: "subscribed",
     image: "/assets/images/profile.png"
   }

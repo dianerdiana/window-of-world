@@ -25,8 +25,8 @@ export default function Profile() {
             <Col className="d-flex bg-pink py-4 px-5 rounded-3 mb-5 ms-3">
               <div>
                 <div className="d-flex align-items-center mb-4">
-                  <div>
-                    <img src="/assets/icons/mail.png" alt="email"/>
+                  <div className="icon-profile">
+                    <img src="/assets/icons/mail.png" alt="email" />
                   </div>
                   <div className="ms-3">
                     <span className="d-block fs-6 fw-bold">egigans@gmail.com</span>
@@ -34,8 +34,8 @@ export default function Profile() {
                   </div>
                 </div>
                 <div className="d-flex align-items-center mb-4">
-                  <div>
-                    <img src="/assets/icons/gender.png" alt="email"/>
+                  <div className="icon-profile">
+                    <img src="/assets/icons/gender.png" alt="email" />
                   </div>
                   <div className="ms-3">
                     <span className="d-block fs-6 fw-bold">Male</span>
@@ -43,8 +43,8 @@ export default function Profile() {
                   </div>
                 </div>
                 <div className="d-flex align-items-center mb-4">
-                  <div>
-                    <img src="/assets/icons/phone.png" alt="email"/>
+                  <div className="icon-profile">
+                    <img src="/assets/icons/phone.png" alt="email" />
                   </div>
                   <div className="ms-3">
                     <span className="d-block fs-6 fw-bold">0812-8623-8911</span>
@@ -52,8 +52,8 @@ export default function Profile() {
                   </div>
                 </div>
                 <div className="d-flex align-items-center mb-4">
-                  <div>
-                    <img src="/assets/icons/location.png" alt="email"/>
+                  <div className="icon-profile">
+                    <img src="/assets/icons/location.png" alt="email" />
                   </div>
                   <div className="ms-3">
                     <span className="d-block fs-6 fw-bold">Perumahan Permata Bintaro Residence C-3</span>

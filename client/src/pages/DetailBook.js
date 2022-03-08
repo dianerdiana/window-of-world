@@ -1,4 +1,5 @@
 import { Container, Row, Col, Button } from "react-bootstrap"
+import { Link } from "react-router-dom"
 
 //import component
 import Navbar from "../components/navbar/Navbar"
@@ -72,12 +73,13 @@ export default function DetailBook() {
                 Add My List
                 <img className="ms-2" src="/assets/icons/marker.png" alt="add-my-list"/>
               </Button>
-              <Button 
-                variant="secondary" 
-                className="bg-grey ol-none ms-4 py-2 px-3">
+              <Link 
+                to="/read-book"
+                variant="secondary"
+                className="btn bg-grey ol-none ms-4 py-2 px-3">
                 Read Book
                 <img className="ms-2" src="/assets/icons/V.png" alt="add-my-list"/>
-              </Button>
+              </Link>
             </Col>
           </Row>
         </Col>

@@ -1,4 +1,5 @@
-import { Container, Row, Col } from "react-bootstrap"
+import { useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
 //import component
@@ -10,6 +11,8 @@ import { listBook } from "../fake-data/list-book";
 import { user } from "../fake-data/user";
 
 export default function Home() {
+
+  const [unsubscribed, setUnsubscribed] = useState(false);
 
   return (
     <Container fluid className="container-fluid py-2">
@@ -33,15 +36,23 @@ export default function Home() {
               {listBook.map((item) => {
                 return (
                   <div key={item.id} className="list-book me-5">
-                    <Link to={user.subscribe == "subscribed"? "/detail-book/" + item.id : "/home"}>
-                      <img src={item.image} alt={item.image} className="list-book w-100"/>
-                    </Link>
+                    {user.subscribe === "subscribed"? 
+                    <Link to={"/detail-book/" + item.id}>
+                      <img src={item.image} alt={item.image} className="list-book"/>
+                    </Link> :
+                    <Button className="bg-transparent ol-none" onClick={()=> setUnsubscribed(true )}>
+                      <img src={item.image} alt={item.image} className="list-book"/>
+                    </Button>}
                     <h5 className="ff-times fw-bold mt-3">{item.title}</h5>
                     <h6 className="fc-gray">{item.author}</h6>
                   </div>
                 )
               })}
             </Col>
+            <Unsubscribed 
+              show={unsubscribed}
+              onHide={setUnsubscribed}
+            />
           </Row>
         </Col>
       </Row>

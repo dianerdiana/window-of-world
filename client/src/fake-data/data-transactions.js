@@ -5,7 +5,7 @@ export const dataTransactions = [
     buktiTransfer: "BCA.png",
     remainingActive: "26 / hari",
     statusUser: "Active",
-    statusPayment: "Pending",
+    statusPayment: "Approve",
   },
   {
     id: 2,
@@ -13,6 +13,38 @@ export const dataTransactions = [
     buktiTransfer: "BCA.png",
     remainingActive: "26 / hari",
     statusUser: "Active",
+    statusPayment: "Approve",
+  },
+  {
+    id: 3,
+    fullName: "Amin Subagjo",
+    buktiTransfer: "permata.png",
+    remainingActive: "0 / hari",
+    statusUser: "Not Active",
+    statusPayment: "Cancel",
+  },
+  {
+    id: 4,
+    fullName: "Haris Astina",
+    buktiTransfer: "permata.png",
+    remainingActive: "0 / hari",
+    statusUser: "Not Active",
+    statusPayment: "Pending",
+  },
+  {
+    id: 5,
+    fullName: "Aziz Oni On",
+    buktiTransfer: "bi.png",
+    remainingActive: "0 / hari",
+    statusUser: "Not Active",
+    statusPayment: "Pending",
+  },
+  {
+    id: 6,
+    fullName: "Sugeng No Pants",
+    buktiTransfer: "bni.png",
+    remainingActive: "0 / hari",
+    statusUser: "Not Active",
     statusPayment: "Pending",
   }
 ]

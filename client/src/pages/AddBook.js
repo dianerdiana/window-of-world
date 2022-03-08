@@ -44,7 +44,7 @@ export default function AddBook() {
             </Form.Group>
 
             <Form.Group className="d-flex justify-content-end mt-3">
-              <Button variant="danger" className="bg-orange py-2 ol-none">
+              <Button variant="danger" className="bg-orange py-2 ol-none rounded-3">
                 Add Book
                 <img src="/assets/icons/add-book.png" alt="add-book" className="ms-3"/>
               </Button>
