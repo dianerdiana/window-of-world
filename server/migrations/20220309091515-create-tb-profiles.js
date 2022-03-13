@@ -13,10 +13,12 @@ module.exports = {
         type: Sequelize.ENUM("Male", "Female"),
       },
       phone: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER(13),
+        defaultValue: 628123456,
       },
       address: {
         type: Sequelize.STRING,
+        defaultValue: "Please input your address",
       },
       image: {
         type: Sequelize.STRING,

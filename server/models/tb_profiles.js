@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   tb_profiles.init(
     {
       gender: DataTypes.ENUM("Male", "Female"),
-      phone: DataTypes.INTEGER,
+      phone: DataTypes.INTEGER(13),
       address: DataTypes.STRING,
       image: DataTypes.STRING,
       user_id: DataTypes.INTEGER,

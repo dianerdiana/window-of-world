@@ -102,7 +102,7 @@ exports.getUser = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await tb_users.findAll({
+    const user = await tb_users.findOne({
       where: {
         id,
       },
@@ -123,22 +123,5 @@ exports.getUser = async (req, res) => {
       status: "failed",
       message: "Server Error",
     });
-  }
-};
-
-exports.check = async (req, res) => {
-  try {
-    const date = new Date();
-    date.setTime(1932403882988);
-
-    let now = new Date();
-    now = now.getMilliseconds();
-
-    res.send({
-      date,
-      now,
-    });
-  } catch (error) {
-    console.log(error);
   }
 };

@@ -10,6 +10,7 @@ const {
   getBook,
   editBook,
   deleteBook,
+  test,
 } = require("../controllers/books");
 const { editProfile } = require("../controllers/profiles");
 const {
@@ -17,17 +18,13 @@ const {
   editTransaction,
   getTransaction,
   getTransactions,
-} = require("../controllers/transactions");
-const {
-  getUsers,
-  getUser,
-  deleteUser,
   check,
-} = require("../controllers/users");
+} = require("../controllers/transactions");
+const { getUsers, getUser, deleteUser } = require("../controllers/users");
 
 //import middlewares
 const { auth } = require("../middlewares/auth");
-const { uploadFile, uploadProof } = require("../middlewares/uploadFile");
+const { uploadFile, uploadImage } = require("../middlewares/uploadFile");
 
 //set routes
 router.post("/register", register);
@@ -43,12 +40,13 @@ router.get("/book/:id", getBook);
 router.patch("/book/:id", auth, uploadFile("image", "bookFile"), editBook);
 router.delete("/book/:id", auth, deleteBook);
 
-router.post("/transaction", auth, uploadProof("transferProof"), addTransaction);
+router.post("/transaction", auth, uploadImage("transferProof"), addTransaction);
 router.patch("/transaction/:id", auth, editTransaction);
 router.get("/transaction/:id", getTransaction);
 router.get("/transactions", getTransactions);
 
-router.patch("/edit-profile", auth, editProfile);
-router.get("/test", check);
+router.patch("/edit-profile", auth, uploadImage("image"), editProfile);
+router.get("/check", check);
+router.post("/test", uploadImage("image"), test);
 
 module.exports = router;

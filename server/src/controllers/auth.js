@@ -1,5 +1,5 @@
 // import model
-const { tb_users } = require("../../models");
+const { tb_users, tb_profiles } = require("../../models");
 
 // import joi validation
 const Joi = require("joi");
@@ -36,6 +36,8 @@ exports.register = async (req, res) => {
       password: hashedPassword,
       fullName: req.body.fullName,
     });
+
+    const crtProfile = await tb_profiles.create({ user_id: newUser.id });
 
     const token = jwt.sign({ id: newUser.id }, process.env.TOKEN_KEY);
 

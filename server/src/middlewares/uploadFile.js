@@ -80,7 +80,7 @@ exports.uploadFile = (imageFile, epubFile) => {
   };
 };
 
-exports.uploadProof = (imageFile) => {
+exports.uploadImage = (imageFile) => {
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, "uploads/images");

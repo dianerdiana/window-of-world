@@ -200,3 +200,55 @@ exports.deleteBook = async (req, res) => {
     });
   }
 };
+
+exports.test = async (req, res) => {
+  try {
+    const data = req.body;
+    let { publicationDate } = data;
+    const month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    console.log(data);
+
+    const getPublicationDate = (time) => {
+      const monthIndex = new Date(time).getMonth();
+      const year = new Date(time).getFullYear();
+
+      return `${month[monthIndex]} ${year}`;
+    };
+
+    let newBook = await tb_books.create({
+      ...data,
+      publicationDate,
+    });
+
+    res.send({
+      status: "success",
+      message: "Add book finished",
+      data: {
+        book: {
+          title: newBook.title,
+          publicationDate: getPublicationDate(newBook.publicationDate),
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      status: "failed",
+      message: "Server Error",
+    });
+  }
+};
