@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       user_id: DataTypes.INTEGER,
       transferProof: DataTypes.STRING,
-      remainingActive: DataTypes.DATE,
+      remainingActive: DataTypes.INTEGER,
       user_status: DataTypes.ENUM("Active", "Not Active"),
       payment_status: DataTypes.ENUM("Pending", "Approve", "Cancel"),
     },

@@ -1,13 +1,38 @@
-import { Container, Row, Col, Button } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 
 //import component
-import Navbar from "../components/navbar/NavbarProf"
+import Navbar from "../components/navbar/NavbarProf";
 
 //import data
-import { myListBook } from "../fake-data/my-list-book"
+import { myListBook } from "../fake-data/my-list-book";
+import { UserContext } from "../context/userContext";
+import { API } from "../config/api";
 
 export default function Profile() {
+  const [state, dispatch] = useContext(UserContext);
+  const [myBooks, setMyBooks] = useState([]);
+
+  const user = state.user;
+
+  const getMyBooks = async () => {
+    const response = await API.get("/my-books");
+
+    setMyBooks(response.data.data.myBooks);
+  };
+
+  useEffect(() => {
+    getMyBooks();
+  }, []);
+
+  if (user.profile?.image === null) {
+    return (user.profile.image = "/assets/images/profile.png");
+  }
+
+  if (user.profile?.gender === null) {
+    return (user.profile.gender = "Please choose gender");
+  }
 
   return (
     <Container fluid className="container-fluid py-2">
@@ -18,9 +43,7 @@ export default function Profile() {
         <Col md={9} className="py-5 ms-5">
           <Row className="flex-column">
             <Col>
-              <h1 className="ff-times fw-bold mb-4">
-                Profile
-              </h1>
+              <h1 className="ff-times fw-bold mb-4">Profile</h1>
             </Col>
             <Col className="d-flex bg-pink py-4 px-5 rounded-3 mb-5 ms-3">
               <div>
@@ -29,7 +52,7 @@ export default function Profile() {
                     <img src="/assets/icons/mail.png" alt="email" />
                   </div>
                   <div className="ms-3">
-                    <span className="d-block fs-6 fw-bold">egigans@gmail.com</span>
+                    <span className="d-block fs-6 fw-bold">{user.email}</span>
                     <span className="d-block fs-6 fc-gray mt-1">Email</span>
                   </div>
                 </div>
@@ -38,7 +61,9 @@ export default function Profile() {
                     <img src="/assets/icons/gender.png" alt="email" />
                   </div>
                   <div className="ms-3">
-                    <span className="d-block fs-6 fw-bold">Male</span>
+                    <span className="d-block fs-6 fw-bold">
+                      {user.profile?.gender}
+                    </span>
                     <span className="d-block fs-6 fc-gray mt-1">Gender</span>
                   </div>
                 </div>
@@ -47,8 +72,12 @@ export default function Profile() {
                     <img src="/assets/icons/phone.png" alt="email" />
                   </div>
                   <div className="ms-3">
-                    <span className="d-block fs-6 fw-bold">0812-8623-8911</span>
-                    <span className="d-block fs-6 fc-gray mt-1">Mobile Phone</span>
+                    <span className="d-block fs-6 fw-bold">
+                      {user.profile?.phone}
+                    </span>
+                    <span className="d-block fs-6 fc-gray mt-1">
+                      Mobile Phone
+                    </span>
                   </div>
                 </div>
                 <div className="d-flex align-items-center mb-4">
@@ -56,21 +85,26 @@ export default function Profile() {
                     <img src="/assets/icons/location.png" alt="email" />
                   </div>
                   <div className="ms-3">
-                    <span className="d-block fs-6 fw-bold">Perumahan Permata Bintaro Residence C-3</span>
+                    <span className="d-block fs-6 fw-bold">
+                      {user.profile?.address}
+                    </span>
                     <span className="d-block fs-6 fc-gray mt-1">Address</span>
                   </div>
                 </div>
               </div>
               <div className="ms-auto">
                 <div className="mt-4 rounded-3">
-                  <img src="/assets/images/profile.png" alt="profile" 
+                  <img
+                    src={user.profile?.image}
+                    alt="profile"
                     style={{
                       width: "220px",
                       height: "200px",
                       objectFit: "cover",
                       objectPosition: "center",
-                      borderRadius: "4px"
-                    }}/>
+                      borderRadius: "4px",
+                    }}
+                  />
                 </div>
                 <div>
                   <Button variant="danger" className="bg-red w-100 mt-3 py-2">
@@ -80,20 +114,27 @@ export default function Profile() {
               </div>
             </Col>
             <Col>
-              <h1 className="ff-times fw-bold mb-5">
-                My List Book
-              </h1>
+              <h1 className="ff-times fw-bold mb-5">My List Book</h1>
               <div className="d-flex">
-                {myListBook.map((item) => {
+                {myBooks?.map((item, index) => {
                   return (
-                    <div key={item.id} className="my-list-book me-5">
-                      <Link to={"/detail-book/" + item.id}>
-                        <img src={item.image} alt={item.image} className="my-list-book w-100"/>
+                    <div key={index} className="my-list-book me-5">
+                      <Link to={"/detail-book/" + item.user_book.id}>
+                        <img
+                          src={
+                            "http://localhost:5000/uploads/images/" +
+                            item.user_book.image
+                          }
+                          alt={item.user_book.image}
+                          className="my-list-book w-100 rounded-3"
+                        />
                       </Link>
-                      <h4 className="ff-times fw-bold mt-3">{item.title}</h4>
-                      <h6 className="fc-gray">{item.author}</h6>
+                      <h4 className="ff-times fw-bold mt-3">
+                        {item.user_book.title}
+                      </h4>
+                      <h6 className="fc-gray">{item.user_book.author}</h6>
                     </div>
-                  )
+                  );
                 })}
               </div>
             </Col>
@@ -101,5 +142,5 @@ export default function Profile() {
         </Col>
       </Row>
     </Container>
-  )
+  );
 }

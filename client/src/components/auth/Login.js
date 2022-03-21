@@ -1,42 +1,85 @@
-import { useState } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
+import { useState, useContext } from "react";
+import { Modal, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-//import component
-import Register from "./Register"
+//import api
+import { API } from "../../config/api";
+
+import { UserContext } from "../../context/userContext";
 
 export default function Login(props) {
-
   const navigate = useNavigate();
 
-  // const [showLogin, setShowLogin] = useState(true)
-  const [showRegister, setShowRegister] = useState(false);
+  const [state, dispatch] = useContext(UserContext);
+  const [message, setMessage] = useState(null);
+
+  // Store data with useState here ...
   const [form, setForm] = useState({
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
-  const {email, password} = form
+  const { email, password } = form;
 
   const handleChange = (e) => {
     setForm({
-      [e.target.name]: e.target.value
+      ...form,
+      [e.target.name]: e.target.value,
     });
   };
 
-  const openRegister = async () => {
-    await setShowRegister(true)
-  }
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
 
-  const submit = () => {
-    if (email == "dierd@gmail.com") {
-      navigate("/list-transactions")
-    } else {
-      navigate("/home")
+      // Create Configuration Content-type here ...
+      // Content-type: application/json
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      // Convert form data to string here ...
+      const body = JSON.stringify(form);
+
+      // Insert data user for login process here ...
+      const response = await API.post("/login", body, config);
+
+      // Checking process
+      if (response?.status == 200) {
+        // Send data to useContext
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: response.data.data.user,
+        });
+
+        // Status check
+        if (response.data.data.user.role == "admin") {
+          navigate("/list-transactions");
+        } else {
+          navigate("/home");
+        }
+
+        const alert = (
+          <Alert variant="success" className="py-1">
+            Login success
+          </Alert>
+        );
+        setMessage(alert);
+      }
+    } catch (error) {
+      const alert = (
+        <Alert variant="danger" className="py-1">
+          Login failed
+        </Alert>
+      );
+      setMessage(alert);
+      console.log(error);
     }
-  }
+  };
 
-  return(
+  return (
     <Modal
       {...props}
       contentClassName="modal-form"
@@ -44,37 +87,45 @@ export default function Login(props) {
       centered
     >
       <Modal.Body className="px-4 py-5">
-        <Form className="px-1">
-          <h1 className="ff-bold mb-4">
-            Sign In
-          </h1>
+        <Form onSubmit={handleSubmit} className="px-1">
+          <h1 className="ff-bold mb-4">Sign In</h1>
+          {message && message}
           <Form.Control
-            name="email" 
-            type="email" 
+            name="email"
+            type="email"
             placeholder="Email"
+            value={email}
             onChange={handleChange}
             className="bg-gray mb-4 py-2"
           />
-          <Form.Control 
+          <Form.Control
             name="password"
-            type="password" 
+            type="password"
             placeholder="Password"
+            value={password}
             onChange={handleChange}
             className="bg-gray mb-4 py-2"
           />
-          <Button onClick={submit} variant="danger" className="w-100 bg-red fw-bold py-2 mt-2 mb-3">
+          <Button
+            type="submit"
+            variant="danger"
+            className="w-100 bg-red fw-bold py-2 mt-2 mb-3"
+          >
             Sign In
           </Button>
 
           <p className="mb-0 ms-5 me-5">
-            Don't have an account ? Klik <span onClick={props.trigger} className="ff-bold" style={{cursor: "pointer"}}>Here</span>
+            Don't have an account ? Klik{" "}
+            <span
+              onClick={props.modal}
+              className="ff-bold"
+              style={{ cursor: "pointer" }}
+            >
+              Here
+            </span>
           </p>
-          <Register 
-            show={showRegister}
-            onHide={()=> setShowRegister(false)}
-          />
         </Form>
       </Modal.Body>
     </Modal>
-  )
+  );
 }

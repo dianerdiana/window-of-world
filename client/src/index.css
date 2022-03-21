@@ -16,7 +16,7 @@
 body {
   margin: 0;
   font-family: Avenir;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
 }
 
 .container-fluid {
@@ -53,20 +53,20 @@ body {
 /* style background */
 
 .bg-red {
-  background-color: #D60000;
+  background-color: #d60000;
 }
 
 .bg-orange {
-  background-color: #FF0000;
+  background-color: #ff0000;
 }
 
 .bg-grey {
-  background: #CDCDCDB2;
+  background: #cdcdcdb2;
   color: black;
 }
 
 .bg-gray {
-  background: #BCBCBC40;
+  background: #bcbcbc40;
 }
 
 .bg-transparent {
@@ -74,7 +74,7 @@ body {
 }
 
 .bg-pink {
-  background: #FFD9D9;
+  background: #ffd9d9;
 }
 
 /* outline & border */
@@ -102,15 +102,15 @@ body {
 }
 
 .ff-times {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .fc-red {
-  color: #D60000;
+  color: #d60000;
 }
 
 .fc-green {
-  color: #29BD11;
+  color: #29bd11;
 }
 
 .fc-gray {
@@ -177,44 +177,44 @@ body {
 
 .triangle {
   width: 0;
-	height: 0;
+  height: 0;
   top: -20px;
   right: 22px;
   position: absolute;
-	border-left: 10px solid transparent;
-	border-right: 10px solid transparent;
-	border-bottom: 20px solid #ffff;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid #ffff;
 }
 
 .triangle-action {
   width: 0;
-	height: 0;
+  height: 0;
   top: -15px;
   right: 12px;
   position: absolute;
-	border-left: 10px solid transparent;
-	border-right: 10px solid transparent;
-	border-bottom: 20px solid #ffff;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid #ffff;
 }
 
 .Not {
-  color: #D60000 !important;
+  color: #d60000 !important;
 }
 
 .Active {
-  color: #0ACF83;
+  color: #0acf83;
 }
 
 .Approve {
-  color: #0ACF83;
+  color: #0acf83;
 }
 
 .Pending {
-  color: #F7941E;
+  color: #f7941e;
 }
 
 .Cancel {
-  color: #FF0742;
+  color: #ff0742;
 }
 
 /* Styling table */
@@ -227,22 +227,25 @@ table {
 
 th {
   padding: 10px 0;
-  color: #FF0000;
-  background: #F1F1F1;
+  color: #ff0000;
+  background: #f1f1f1;
 }
 
 tr {
   color: black;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
-th, td {
+th,
+td {
   text-align: left;
   padding: 12px 8px;
-  border-bottom: 2px solid #C4C4C4;
+  border-bottom: 2px solid #c4c4c4;
 }
 
-tr:nth-child(even) {background-color: #f2f2f2;}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
 
 a {
   text-decoration: none;
@@ -252,29 +255,29 @@ textarea {
   resize: none;
 }
 
-textarea:focus, input:focus {
-  background: #BCBCBC40 !important;
+textarea:focus,
+input:focus {
+  background: #bcbcbc40 !important;
   border: 2px solid #d1d1d1 !important;
 }
 
-textarea:hover, 
-input:hover, 
-textarea:active, 
-input:active, 
-textarea:focus, 
+textarea:hover,
+input:hover,
+textarea:active,
+input:active,
+textarea:focus,
 input:focus,
 button:focus,
 button:active,
 button:hover,
 label:focus,
 .btn:active,
-.btn.active
-{
-    outline:0px !important;
-    -webkit-appearance:none;
-    box-shadow: none !important;
+.btn.active {
+  outline: 0px !important;
+  -webkit-appearance: none;
+  box-shadow: none !important;
 }
 
-.dropdown-toggle::after{
-  display: none !important; 
+.dropdown-toggle::after {
+  display: none !important;
 }

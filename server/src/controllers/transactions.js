@@ -3,13 +3,13 @@ const { tb_transactions, tb_users } = require("../../models");
 exports.addTransaction = async (req, res) => {
   const user_id = req.user.id;
   const transferProof = req.file.filename;
-  let remainingActive = new Date();
-  remainingActive.setDate(remainingActive.getDate() + 30);
+  // let remainingActive = new Date();
+  // remainingActive.setDate(remainingActive.getDate() + 30);
 
   const data = {
     user_id,
     transferProof,
-    remainingActive,
+    remainingActive: 0,
   };
 
   try {
@@ -38,15 +38,15 @@ exports.addTransaction = async (req, res) => {
       },
     });
 
-    let distance = dataTransaction.remainingActive - new Date();
+    // let distance = dataTransaction.remainingActive - new Date();
 
-    dataTransaction = JSON.parse(JSON.stringify(dataTransaction));
+    // dataTransaction = JSON.parse(JSON.stringify(dataTransaction));
 
-    dataTransaction = {
-      ...dataTransaction,
-      remainingActive: Math.round(distance / (1000 * 3600 * 24)),
-      transferProof: process.env.IMAGE_PATH + dataTransaction.transferProof,
-    };
+    // dataTransaction = {
+    //   ...dataTransaction,
+    //   remainingActive: Math.round(distance / (1000 * 3600 * 24)),
+    //   transferProof: process.env.IMAGE_PATH + dataTransaction.transferProof,
+    // };
 
     res.send({
       status: "success",
@@ -61,15 +61,24 @@ exports.addTransaction = async (req, res) => {
 
 exports.editTransaction = async (req, res) => {
   const { id } = req.params;
-  let remainingActive = new Date();
-  remainingActive.setDate(remainingActive.getDate() + 30);
+  const { role } = req.user;
+  // let remainingActive = new Date();
+  // remainingActive.setDate(remainingActive.getDate() + 30);
 
   const data = {
+    user_status: "Active",
     payment_status: "Approve",
-    remainingActive,
+    remainingActive: 30,
   };
 
   try {
+    if (role != "admin") {
+      return res.status(403).send({
+        status: "Failed",
+        message: "You don't have permitted to access!",
+      });
+    }
+
     const updateTransaction = await tb_transactions.update(data, {
       where: {
         id,
@@ -99,16 +108,14 @@ exports.editTransaction = async (req, res) => {
       },
     });
 
-    let distance = updatedTransaction.remainingActive - new Date();
-
-    updatedTransaction = JSON.parse(JSON.stringify(updatedTransaction));
-
-    updatedTransaction = {
-      ...updatedTransaction,
-      transferProof: process.env.IMAGE_PATH + updatedTransaction.transferProof,
-      remainingActive: Math.round(distance / (1000 * 3600 * 24)),
-    };
-
+    let updateUser = await tb_users.update(
+      { subscribe: "subscribed" },
+      {
+        where: {
+          id: updatedTransaction.purchaser.id,
+        },
+      }
+    );
     res.send({
       status: "success",
       data: {
@@ -124,7 +131,7 @@ exports.getTransaction = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const transaction = await tb_transactions.findOne({
+    let transaction = await tb_transactions.findOne({
       where: {
         id,
       },
@@ -146,6 +153,17 @@ exports.getTransaction = async (req, res) => {
         exclude: ["createdAt", "updatedAt", "user_id"],
       },
     });
+
+    // transaction = JSON.parse(JSON.stringify(transaction));
+
+    // transaction = {
+    //   ...transaction,
+    //   transferProof: process.env.IMAGE_PATH + transaction.transferProof,
+    //   remainingActive: Math.round(
+    //     (new Date(transaction.remainingActive) - new Date()) /
+    //       (1000 * 3600 * 24)
+    //   ),
+    // };
 
     res.send({
       status: "success",
@@ -180,17 +198,17 @@ exports.getTransactions = async (req, res) => {
       },
     });
 
-    transactions = JSON.parse(JSON.stringify(transactions));
+    // transactions = JSON.parse(JSON.stringify(transactions));
 
-    transactions = transactions.map((item) => {
-      return (transactions = {
-        ...item,
-        transferProof: process.env.IMAGE_PATH + item.transferProof,
-        remainingActive: Math.round(
-          (new Date(item.remainingActive) - new Date()) / (1000 * 3600 * 24)
-        ),
-      });
-    });
+    // transactions = transactions.map((item) => {
+    //   return (transactions = {
+    //     ...item,
+    //     transferProof: process.env.IMAGE_PATH + item.transferProof,
+    //     remainingActive: Math.round(
+    //       (new Date(item.remainingActive) - new Date()) / (1000 * 3600 * 24)
+    //     ),
+    //   });
+    // });
 
     res.send({
       status: "success",
@@ -203,25 +221,36 @@ exports.getTransactions = async (req, res) => {
   }
 };
 
-exports.check = async (req, res) => {
+exports.updateRemainingActive = async (req, res) => {
   try {
-    let now = new Date();
-    now.getTime(1649622847188);
-    let timeNow = new Date();
+    // dataTransactions = JSON.parse(JSON.stringify(dataTransactions));
 
-    let d = new Date();
-    d.setDate(d.getDate() + 30);
+    // dataTransactions = dataTransactions.map((data) => {
+    //   return (dataTransactions = {
+    //     ...data,
+    //   });
+    // });
 
-    let distance = d - timeNow;
+    // let dataTransaction = await tb_transactions.findOne({
+    //   where: {
+    //     id: 2,
+    //   },
+    // });
 
-    let distanceDay = Math.floor(distance / (1000 * 3600 * 24));
+    // const update = await dataTransactions.decrement("remainingActive", {
+    //   by: 1,
+    // });
 
-    res.send({
-      now,
-      distance,
-      distanceDay,
-      d,
-    });
+    let update = await tb_transactions.decrement(
+      { remainingActive: 1 },
+      { where: { user_status: "Active" } }
+    );
+
+    // const dataTransactions = await tb_transactions.findAll();
+
+    // res.send({
+    //   status: "success",
+    // });
   } catch (error) {
     console.log(error);
   }

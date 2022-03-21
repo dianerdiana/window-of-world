@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       remainingActive: {
-        type: Sequelize.DATE,
+        type: Sequelize.INTEGER,
         defaultValue: Sequelize.fn("now"),
       },
       user_status: {

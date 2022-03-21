@@ -87,6 +87,13 @@ exports.login = async (req, res) => {
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
+      include: {
+        model: tb_profiles,
+        as: "profile",
+        attributes: {
+          exclude: ["user_id", "createdAt", "updatedAt"],
+        },
+      },
     });
 
     if (!userExist) {
@@ -109,6 +116,7 @@ exports.login = async (req, res) => {
       id: userExist.id,
       name: userExist.fullName,
       email: userExist.email,
+      role: userExist.role,
     };
 
     const token = jwt.sign(tokenData, process.env.TOKEN_KEY);
@@ -119,6 +127,9 @@ exports.login = async (req, res) => {
         user: {
           email: userExist.email,
           fullName: userExist.fullName,
+          role: userExist.role,
+          subscribe: userExist.subscribe,
+          profile: userExist.profile,
           token,
         },
       },
@@ -140,6 +151,13 @@ exports.checkAuth = async (req, res) => {
       where: {
         id,
       },
+      include: {
+        model: tb_profiles,
+        as: "profile",
+        attributes: {
+          exclude: ["user_id", "createdAt", "updatedAt"],
+        },
+      },
       attributes: {
         exclude: ["createdAt", "updatedAt", "password"],
       },
@@ -158,9 +176,9 @@ exports.checkAuth = async (req, res) => {
           id: dataUser.id,
           fullName: dataUser.fullName,
           email: dataUser.email,
-          bio: dataUser.bio,
-          image: dataUser.image,
-          username: dataUser.username,
+          role: dataUser.role,
+          subscribe: dataUser.subscribe,
+          profile: dataUser.profile,
         },
       },
     });

@@ -1,25 +1,33 @@
 const { tb_books } = require("../../models");
 
 exports.addBook = async (req, res) => {
+  const data = req.body;
+  const image = req.files["image"][0].filename;
+  const bookFile = req.files["bookFile"][0].filename;
+  const { role } = req.user;
+  let { publicationDate } = data;
+  const month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   try {
-    const data = req.body;
-    const image = req.files["image"][0].filename;
-    const bookFile = req.files["bookFile"][0].filename;
-    let { publicationDate } = data;
-    const month = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
+    if (role != "admin") {
+      return res.status(403).send({
+        status: "Failed",
+        message: "You don't have permitted to access!",
+      });
+    }
 
     const getPublicationDate = (time) => {
       const monthIndex = new Date(time).getMonth();
@@ -93,6 +101,27 @@ exports.getBooks = async (req, res) => {
 
 exports.getBook = async (req, res) => {
   const { id } = req.params;
+  const month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const getPublicationDate = (time) => {
+    const monthIndex = new Date(time).getMonth();
+    const year = new Date(time).getFullYear();
+
+    return `${month[monthIndex]} ${year}`;
+  };
 
   try {
     let dataBook = await tb_books.findOne({
@@ -108,6 +137,7 @@ exports.getBook = async (req, res) => {
 
     dataBook = {
       ...dataBook,
+      publicationDate: getPublicationDate(dataBook.publicationDate),
       image: process.env.IMAGE_PATH + dataBook.image,
       bookFile: process.env.EPUB_PATH + dataBook.bookFile,
     };
@@ -128,12 +158,19 @@ exports.getBook = async (req, res) => {
 
 exports.editBook = async (req, res) => {
   const { id } = req.params;
+  const { role } = req.user;
   const { title, publicationDate, pages, author, isbn, about } = req.body;
 
   const image = req.files["image"][0].filename;
   const bookFile = req.files["bookFile"][0].filename;
 
   try {
+    if (role != "admin") {
+      return res.status(403).send({
+        status: "Failed",
+        message: "You don't have permitted to access!",
+      });
+    }
     const data = {
       title,
       publicationDate,
@@ -181,8 +218,15 @@ exports.editBook = async (req, res) => {
 
 exports.deleteBook = async (req, res) => {
   const { id } = req.params;
+  const { role } = req.user;
 
   try {
+    if (role != "admin") {
+      return res.status(403).send({
+        status: "Failed",
+        message: "You don't have permitted to access!",
+      });
+    }
     await tb_books.destroy({
       where: {
         id,
@@ -194,58 +238,6 @@ exports.deleteBook = async (req, res) => {
       message: `Delete book with id: ${id} is finished`,
     });
   } catch (error) {
-    res.status(500).send({
-      status: "failed",
-      message: "Server Error",
-    });
-  }
-};
-
-exports.test = async (req, res) => {
-  try {
-    const data = req.body;
-    let { publicationDate } = data;
-    const month = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    console.log(data);
-
-    const getPublicationDate = (time) => {
-      const monthIndex = new Date(time).getMonth();
-      const year = new Date(time).getFullYear();
-
-      return `${month[monthIndex]} ${year}`;
-    };
-
-    let newBook = await tb_books.create({
-      ...data,
-      publicationDate,
-    });
-
-    res.send({
-      status: "success",
-      message: "Add book finished",
-      data: {
-        book: {
-          title: newBook.title,
-          publicationDate: getPublicationDate(newBook.publicationDate),
-        },
-      },
-    });
-  } catch (error) {
-    console.log(error);
     res.status(500).send({
       status: "failed",
       message: "Server Error",

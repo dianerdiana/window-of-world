@@ -1,14 +1,31 @@
 import { Container, Row, Col } from "react-bootstrap";
+import { useEffect, useState } from "react";
 
 //import component
 import ActionsTable from "../components/ActionsTable";
 import NavAdmin from "../components/navbar/NavAdmin";
 
 //import data
-import { dataTransactions } from "../fake-data/data-transactions";
+import { API } from "../config/api";
 
 export default function ListTransaction() {
+  const [dataTransactions, setDataTransactions] = useState([]);
 
+  const getTransactions = async () => {
+    const response = await API.get("/transactions");
+
+    setDataTransactions(response.data.data.transactions);
+  };
+
+  const approveTransactions = async (id) => {
+    const response = await API.patch("/transaction/" + id);
+
+    getTransactions();
+  };
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
   return (
     <Container fluid className="pb-5">
       <Row className="py-2">
@@ -16,9 +33,7 @@ export default function ListTransaction() {
       </Row>
       <Row className="flex-column align-items-center mt-5">
         <Col className="w-80 mb-5">
-          <h3 className="ff-times fw-bold">
-            Incoming Transaction
-          </h3>
+          <h3 className="ff-times fw-bold">Incoming Transaction</h3>
         </Col>
         <Col className="w-80 pb-5">
           <table>
@@ -34,25 +49,29 @@ export default function ListTransaction() {
               </tr>
             </thead>
             <tbody>
-              {dataTransactions?.map((item, index)=> {
-                return(
+              {dataTransactions?.map((item, index) => {
+                return (
                   <tr key={item.id}>
                     <td>{index + 1}.</td>
-                    <td>{item.fullName}</td>
-                    <td>{item.buktiTransfer}</td>
-                    <td>{item.remainingActive}</td>
-                    <td className={item.statusUser}>{item.statusUser}</td>
-                    <td className={item.statusPayment}>{item.statusPayment}</td>
+                    <td>{item.purchaser.fullName}</td>
+                    <td>{item.transferProof}</td>
+                    <td>{item.remainingActive} / Hari</td>
+                    <td className={item.user_status}>{item.user_status}</td>
+                    <td className={item.payment_status}>
+                      {item.payment_status}
+                    </td>
                     <td>
-                      <ActionsTable />
+                      <ActionsTable
+                        approve={() => approveTransactions(item.id)}
+                      />
                     </td>
                   </tr>
-                )
+                );
               })}
             </tbody>
           </table>
         </Col>
       </Row>
     </Container>
-  )
+  );
 }

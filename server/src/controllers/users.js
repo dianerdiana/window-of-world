@@ -9,6 +9,9 @@ exports.getUsers = async (req, res) => {
       include: {
         model: tb_profiles,
         as: "profile",
+        attributes: {
+          exclude: ["user_id", "createdAt", "updatedAt"],
+        },
       },
     });
 
