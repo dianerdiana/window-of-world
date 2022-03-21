@@ -25,12 +25,11 @@ body {
 
 .list-book {
   width: 200px;
-  height: 270px;
 }
 
-.my-list-book {
-  width: 150px;
-  height: 200px;
+.img-list-book {
+  width: 200px;
+  height: 270px;
 }
 
 .hero-rack {

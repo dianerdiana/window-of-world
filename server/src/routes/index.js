@@ -34,7 +34,7 @@ router.post("/login", login);
 router.get("/check-auth", auth, checkAuth);
 
 router.get("/users", getUsers);
-router.get("/user/:id", getUser);
+router.get("/user", auth, getUser);
 router.delete("/user/:id", deleteUser);
 
 router.post("/add-book", auth, uploadFile("image", "bookFile"), addBook);

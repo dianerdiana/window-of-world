@@ -6,6 +6,9 @@ import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
 
 export default function Index() {
+  const title = "Authentication";
+  document.title = "WOW | " + title;
+
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 

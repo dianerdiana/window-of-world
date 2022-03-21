@@ -6,16 +6,11 @@ import { useContext } from "react";
 //import data
 import { UserContext } from "../../context/userContext";
 
-export default function Navbar() {
+export default function NavbarSub(props) {
   const navigate = useNavigate();
-
   const [state, dispatch] = useContext(UserContext);
 
-  const user = state.user;
-
-  if (user.profile.image === null) {
-    return (user.profile.image = "/assets/images/profile.png");
-  }
+  const user = props.user;
 
   const logout = () => {
     dispatch({
@@ -30,7 +25,11 @@ export default function Navbar() {
       </Link>
       <div className="d-flex align-items-center flex-column">
         <img
-          src={user.profile.image}
+          src={
+            user?.profile?.image == null
+              ? "/assets/images/profile.png"
+              : user.profile.image
+          }
           alt="user"
           className="rounded-circle border-black mb-3"
           style={{
@@ -44,7 +43,7 @@ export default function Navbar() {
           <h4 className="ff-bold mb-2">{user.fullName}</h4>
         </div>
         <div>
-          {user.subscribe == "subscribed" ? (
+          {user?.subscribe == "subscribed" ? (
             <h4 className="fc-green fs-7 fw-bold mb-3">Subscribed</h4>
           ) : (
             <h4 className="fc-red fs-7 fw-bold mb-3">Not Subscribed Yet</h4>

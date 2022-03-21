@@ -9,6 +9,9 @@ import NavAdmin from "../components/navbar/NavAdmin";
 import { API } from "../config/api";
 
 export default function ListTransaction() {
+  const title = "List Transactions";
+  document.title = "WOW | " + title;
+
   const [dataTransactions, setDataTransactions] = useState([]);
 
   const getTransactions = async () => {

@@ -11,12 +11,24 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function DetailBook() {
-  const [state, dispatch] = useContext(UserContext);
-  const [book, setBook] = useState([]);
-  const [isMyBook, setIsMyBook] = useState(null);
   const params = useParams();
 
-  const user = state.user;
+  const [book, setBook] = useState({});
+  const [isMyBook, setIsMyBook] = useState(null);
+  const [user, setUser] = useState({});
+
+  const title = "Detail Book: ";
+  document.title = "WOW | " + title + book?.title;
+
+  const getUser = async () => {
+    try {
+      const response = await API.get("/user");
+
+      setUser(response.data.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getBook = async () => {
     const response = await API.get("/book/" + params.id);
@@ -37,6 +49,7 @@ export default function DetailBook() {
   };
 
   useEffect(() => {
+    getUser();
     getBook();
     checkBook();
   }, []);
@@ -44,7 +57,7 @@ export default function DetailBook() {
     <Container fluid className="container-fluid py-2">
       <Row>
         <Col md={2}>
-          <Navbar />
+          <Navbar user={user} />
         </Col>
         <Col md={9} className="py-5 ms-auto">
           <Row>

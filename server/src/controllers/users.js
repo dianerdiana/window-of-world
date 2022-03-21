@@ -103,11 +103,18 @@ exports.deleteUser = async (req, res) => {
 
 exports.getUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.user;
 
     const user = await tb_users.findOne({
       where: {
         id,
+      },
+      include: {
+        model: tb_profiles,
+        as: "profile",
+        attributes: {
+          exclude: ["user_id", "createdAt", "updatedAt"],
+        },
       },
       attributes: {
         exclude: ["password", "createdAt", "updatedAt"],

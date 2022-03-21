@@ -1,17 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 //import component
-import Navbar from "../components/navbar/NavbarSub";
+import NavbarSub from "../components/navbar/NavbarSub";
 import Subscribed from "../components/Pop-up/Subscribed";
 
 //import data
 import { API } from "../config/api";
 
 export default function Subscribe() {
+  const title = "Subscribe";
+  document.title = "WOW | " + title;
+
   const navigate = useNavigate();
   const [showSubscribe, setShowSubscribe] = useState(false);
+  const [user, setUser] = useState({});
+
+  const getUser = async () => {
+    try {
+      const response = await API.get("/user");
+
+      console.log(response);
+      setUser(response.data.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   const [preview, setPreview] = useState(null);
   const [form, setForm] = useState({
     accountNumber: "",
@@ -72,7 +92,7 @@ export default function Subscribe() {
     <Container fluid className="container-fluid py-2">
       <Row>
         <Col md={2}>
-          <Navbar />
+          <NavbarSub user={user} />
         </Col>
         <Col
           md={10}

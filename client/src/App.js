@@ -39,10 +39,6 @@ function App() {
     }
   }, [state]);
 
-  useEffect(() => {
-    console.log(state);
-  }, []);
-
   // Create function for check user token here ...
   const checkUser = async () => {
     try {

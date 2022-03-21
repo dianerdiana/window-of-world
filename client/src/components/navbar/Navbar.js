@@ -8,21 +8,13 @@ import { useNavigate } from "react-router-dom";
 //import API
 import { API } from "../../config/api";
 import { UserContext } from "../../context/userContext";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function Navbar(props) {
   const navigate = useNavigate();
-
   const [state, dispatch] = useContext(UserContext);
 
-  const user = state.user;
-
-  useEffect(() => {
-    // Redirect Auth
-    if (user.profile?.image == null) {
-      return (user.profile.image = "/assets/images/profile.png");
-    }
-  }, [state]);
+  const user = props.user;
 
   const logout = () => {
     dispatch({
@@ -37,7 +29,11 @@ export default function Navbar(props) {
       </Link>
       <div className="d-flex align-items-center flex-column">
         <img
-          src={user.profile.image}
+          src={
+            user?.profile?.image == null
+              ? "/assets/images/profile.png"
+              : user.profile.image
+          }
           alt="user"
           className="rounded-circle border-black mb-3"
           style={{

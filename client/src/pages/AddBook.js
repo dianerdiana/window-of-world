@@ -7,6 +7,9 @@ import { API } from "../config/api";
 import { useState } from "react";
 
 export default function AddBook() {
+  const titlePage = "Add Book";
+  document.title = "WOW | " + titlePage;
+
   const [preview, setPreview] = useState(null);
   const [form, setForm] = useState({
     image: "",

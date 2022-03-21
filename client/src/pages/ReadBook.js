@@ -25,6 +25,9 @@ export default function ReadBook() {
   const [book, setBook] = useState({});
   const params = useParams();
 
+  const titlePage = "Read Book: ";
+  document.title = "WOW | " + titlePage + book?.title;
+
   const getBook = async () => {
     const response = await API.get("/book/" + params.id);
 
